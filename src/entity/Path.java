@@ -1,5 +1,8 @@
 package entity;
 
+/**
+ * Path Node of the planned trip from the algo.
+ */
 public class Path {
     public Path parent;
     public int weight;

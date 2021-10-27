@@ -1,5 +1,8 @@
 package entity;
 
+/**
+ * Metadata about the City
+ */
 public class City {
     public String cityName;
     public boolean testRequired;

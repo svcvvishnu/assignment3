@@ -1,5 +1,8 @@
 package entity;
 
+/**
+ * To represent an edge in the Graph.
+ */
 public class Route {
     String start;
     String dest;

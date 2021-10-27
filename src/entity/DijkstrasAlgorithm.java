@@ -2,18 +2,26 @@ package entity;
 
 import java.util.*;
 
+/**
+ * The Dijkstras Algorithm.
+ */
 public class DijkstrasAlgorithm {
-    private Map<String, Path> distance;
-    private Set<String> visited;
-    private PriorityQueue<GraphNode> priorityQueue;
+    private final Map<String, Path> distance;
+    private final Set<String> visited;
+    private final PriorityQueue<GraphNode> priorityQueue;
 
-    private int numberOfVertices;
+    private final int numberOfVertices;
     Map<String, Map<String, Route>> routes;
     Map<String, City> cityMap;
     TripMetadata metadata;
 
 
-
+    /**
+     * Constructor.
+     * @param routes Map of routes
+     * @param cityMap Cities by name
+     * @param metadata Metadata to use in the algorithm
+     */
     public  DijkstrasAlgorithm(Map<String, Map<String, Route>> routes, Map<String, City> cityMap, TripMetadata metadata) {
         this.routes = routes;
         this.numberOfVertices = cityMap.size();
@@ -24,6 +32,12 @@ public class DijkstrasAlgorithm {
         this.metadata = metadata;
     }
 
+    /**
+     * Main code to loop the vertices of the graph with min distance.
+     * @param startCity Starting City
+     * @param destinationCity Destination City
+     * @return Path of the Journey
+     */
     public Path step1(String startCity, String destinationCity)
     {
         Set<String> cities = cityMap.keySet();

@@ -1,5 +1,8 @@
 package entity;
 
+/**
+ * Train details between cities.
+ */
 public class Train implements Transport {
     public String startCity;
     public String destinationCity;

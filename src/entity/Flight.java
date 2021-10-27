@@ -1,5 +1,8 @@
 package entity;
 
+/**
+ * Flight details between cities.
+ */
 public class Flight implements Transport{
     public String startCity;
     public String destinationCity;

@@ -1,5 +1,8 @@
 package entity;
 
+/**
+ * Metadata about the trip requirement.
+ */
 public class TripMetadata {
     public int costImportance;
     public int travelTimeImportance;
