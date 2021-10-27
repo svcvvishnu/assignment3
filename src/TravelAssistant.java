@@ -34,9 +34,15 @@ public class TravelAssistant {
     List<String> planTrip(String startCity, String destinationCity, boolean isVaccinated, int costImportance,
                           int travelTimeImportance, int travelHopImportance) throws IllegalArgumentException {
 
-        DijkstrasAlgorithm alg = new DijkstrasAlgorithm(routes, cityByName);
-        alg.step1(startCity, destinationCity, isVaccinated, costImportance, travelTimeImportance, travelHopImportance);
+        DijkstrasAlgorithm alg = new DijkstrasAlgorithm(routes, cityByName, new TripMetadata(costImportance, travelTimeImportance, travelHopImportance, isVaccinated));
+        Path res = alg.step1(startCity, destinationCity );
 
-        return null;
+        List<String> response = new ArrayList<>();
+        while(res != null) {
+            response.add(res.how + res.city);
+            res = res.parent;
+        }
+        Collections.reverse(response);
+        return response;
     }
 }
