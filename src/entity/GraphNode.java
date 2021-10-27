@@ -9,8 +9,6 @@ public class GraphNode implements Comparable<GraphNode>{
         this.cost = cost;
     }
 
-
-
     @Override
     public int compareTo(GraphNode o) {
         return this.cost.compareTo(o.cost);

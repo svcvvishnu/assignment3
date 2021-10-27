@@ -61,7 +61,7 @@ public class DijkstrasAlgorithm {
     }
 
     private void processNeighbours(String cityName) {
-        Temp edgeDistance = null;
+        ResponseString edgeDistance = null;
         int newDistance = -1;
 
         for (Map.Entry<String, Route> nb : routes.get(cityName).entrySet()) {
@@ -78,30 +78,40 @@ public class DijkstrasAlgorithm {
         }
     }
 
-    private Temp calculate(Route value) {
+    private ResponseString calculate(Route value) {
         City c = cityMap.get(value.dest);
         if (!metadata.isVaccinated) {
             if (c.testRequired && c.timeToTest < 0) return null;
         }
         int cost = 0;
         if (!metadata.isVaccinated && c.testRequired) {
-            cost = cost + metadata.travelImportance* c.timeToTest;
+            cost = cost + metadata.travelTimeImportance * c.timeToTest;
             cost = cost + metadata.costImportance * c.timeToTest * c.nightlyHotelCosts ;
         }
         if (value.flight == null ) {
             cost = cost + value.train.getCost()*metadata.costImportance;
             cost = cost + metadata.travelHopImportance;
-            return new Temp("train ", cost);
+            cost = cost + value.train.getTime()* metadata.travelTimeImportance;
+            return new ResponseString("train ", cost);
         }
         if (value.train == null) {
             cost = cost + value.flight.getCost()*metadata.costImportance;
             cost = cost + metadata.travelHopImportance;
-            return new Temp("fly ", cost);
+            cost = cost + value.flight.getTime()* metadata.travelTimeImportance;
+            return new ResponseString("fly ", cost);
         }
 
-        if (value.flight.getCost() < value.train.getCost() || metadata.travelImportance > metadata.costImportance) {
-            return new Temp("fly ", value.flight.getCost());
+        int f_cost= cost + value.flight.getCost()*metadata.costImportance;
+        f_cost = f_cost + metadata.travelHopImportance;
+        f_cost = f_cost + value.flight.getTime()* metadata.travelTimeImportance;
+
+        int t_cost= cost + value.train.getCost()*metadata.costImportance;
+        t_cost = t_cost + metadata.travelHopImportance;
+        t_cost = t_cost + value.train.getTime()* metadata.travelTimeImportance;
+
+        if (f_cost < t_cost) {
+            return new ResponseString("fly ", f_cost);
         }
-        return new Temp("train ", value.train.getCost());
+        return new ResponseString("train ", t_cost);
     }
 }

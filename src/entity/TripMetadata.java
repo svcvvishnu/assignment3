@@ -2,14 +2,14 @@ package entity;
 
 public class TripMetadata {
     public int costImportance;
-    public int travelImportance;
+    public int travelTimeImportance;
     public int travelHopImportance;
     boolean isVaccinated;
 
-    public TripMetadata(int costImportance, int travelImportance, int travelHopImportance, boolean isVaccinated) {
+    public TripMetadata(int costImportance, int travelTimeImportance, int travelHopImportance, boolean isVaccinated) {
         this.costImportance = costImportance;
         this.travelHopImportance = travelHopImportance;
-        this.travelImportance = travelImportance;
+        this.travelTimeImportance = travelTimeImportance;
         this.isVaccinated = isVaccinated;
     }
 }
