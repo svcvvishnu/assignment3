@@ -66,7 +66,7 @@ public class DijkstrasAlgorithm {
 
         for (Map.Entry<String, Route> nb : routes.get(cityName).entrySet()) {
             if (!visited.contains(nb.getKey())) {
-                edgeDistance = getCost(nb.getValue());
+                edgeDistance = calculate(nb.getValue());
                 if (edgeDistance == null) continue;
                 newDistance = distance.get(cityName).weight + edgeDistance.cost;
 
@@ -78,14 +78,28 @@ public class DijkstrasAlgorithm {
         }
     }
 
-    private Temp getCost(Route value) {
+    private Temp calculate(Route value) {
         City c = cityMap.get(value.dest);
         if (!metadata.isVaccinated) {
             if (c.testRequired && c.timeToTest < 0) return null;
         }
-        if (value.flight == null) return new Temp("train ", value.train.getCost());
-        if (value.train == null) return new Temp("fly ", value.flight.getCost());
-        if (value.flight.getCost() < value.train.getCost()) {
+        int cost = 0;
+        if (!metadata.isVaccinated && c.testRequired) {
+            cost = cost + metadata.travelImportance* c.timeToTest;
+            cost = cost + metadata.costImportance * c.timeToTest * c.nightlyHotelCosts ;
+        }
+        if (value.flight == null ) {
+            cost = cost + value.train.getCost()*metadata.costImportance;
+            cost = cost + metadata.travelHopImportance;
+            return new Temp("train ", cost);
+        }
+        if (value.train == null) {
+            cost = cost + value.flight.getCost()*metadata.costImportance;
+            cost = cost + metadata.travelHopImportance;
+            return new Temp("fly ", cost);
+        }
+
+        if (value.flight.getCost() < value.train.getCost() || metadata.travelImportance > metadata.costImportance) {
             return new Temp("fly ", value.flight.getCost());
         }
         return new Temp("train ", value.train.getCost());
