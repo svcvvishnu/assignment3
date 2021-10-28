@@ -42,8 +42,9 @@ public class TestTravelAssistant {
         assistant.addTrain("B", "C", 100000, 1);
 
         List<String> output = assistant.planTrip("A", "C",  true, 1,1,0);
-        for (String s: output) {
-            System.out.println(s);
-        }
+
+        Assert.assertEquals("Expected output length", 2, output.size());
+        Assert.assertEquals("Starting should be", "start A", output.get(0));
+        Assert.assertEquals("Expected output length", "fly C", output.get(1));
     }
 }
