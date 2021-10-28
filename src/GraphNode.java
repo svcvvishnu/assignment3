@@ -1,5 +1,3 @@
-package entity;
-
 /**
  * To represent a node in the graph. Node should be comparable to sort it in the priority queue based on the cost.
  */

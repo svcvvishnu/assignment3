@@ -1,5 +1,3 @@
-package entity;
-
 /**
  * Path Node of the planned trip from the algo.
  */

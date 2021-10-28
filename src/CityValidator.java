@@ -1,5 +1,3 @@
-import entity.City;
-
 /**
  * Validator.
  */

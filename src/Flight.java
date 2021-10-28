@@ -1,5 +1,3 @@
-package entity;
-
 /**
  * Flight details between cities.
  */

@@ -1,5 +1,3 @@
-package entity;
-
 /**
  * Response String that explains on how to go and what is the cost.
  */

@@ -1,5 +1,3 @@
-package entity;
-
 /**
  * Metadata about the City
  */

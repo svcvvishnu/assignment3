@@ -1,5 +1,3 @@
-package entity;
-
 /**
  * To represent an edge in the Graph.
  */

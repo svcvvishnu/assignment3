@@ -1,5 +1,3 @@
-import entity.*;
-
 import java.util.*;
 
 /**
@@ -24,6 +22,7 @@ public class TravelAssistant {
     public boolean addCity(String cityName, boolean testRequired, int timeToTest, int nightlyHotelCost) throws IllegalArgumentException {
         City c = new City(cityName, testRequired, timeToTest, nightlyHotelCost);
         if(!CityValidator.isValid(c)) throw new IllegalArgumentException();
+        if(cityByName.containsKey(cityName)) throw new IllegalArgumentException();
         cityByName.put(cityName, c);
         return true;
     }
@@ -38,8 +37,12 @@ public class TravelAssistant {
      * @throws IllegalArgumentException if there are any invalid parameters passed.
      */
     public boolean addFlight(String startCity, String destinationCity, int flightTime, int flightCost) throws IllegalArgumentException {
+        if(startCity == null || !cityByName.containsKey(startCity)) throw new IllegalArgumentException();
+        if(destinationCity == null || !cityByName.containsKey(destinationCity)) throw new IllegalArgumentException();
+        if(startCity.equals(destinationCity)) throw new IllegalArgumentException();
         Map<String, Route> neighbours = routes.getOrDefault(startCity, new HashMap<>());
         Route r = neighbours.getOrDefault(destinationCity, new Route(startCity, destinationCity));
+        if (r.flight != null) throw new IllegalArgumentException();
         r.setFlight(new Flight(startCity, destinationCity, flightTime, flightCost));
         neighbours.put(destinationCity, r);
         routes.put(startCity, neighbours);
@@ -56,8 +59,12 @@ public class TravelAssistant {
      * @throws IllegalArgumentException if there are any invalid parameters passed.
      */
     public boolean addTrain(String startCity, String destinationCity, int trainTime, int trainCost) throws IllegalArgumentException {
+        if(startCity == null || !cityByName.containsKey(startCity)) throw new IllegalArgumentException();
+        if(destinationCity == null || !cityByName.containsKey(destinationCity)) throw new IllegalArgumentException();
+        if(startCity.equals(destinationCity)) throw new IllegalArgumentException();
         Map<String, Route> neighbours = routes.getOrDefault(startCity, new HashMap<>());
         Route r = neighbours.getOrDefault(destinationCity, new Route(startCity, destinationCity));
+        if (r.train != null) throw new IllegalArgumentException();
         r.setTrain(new Train(startCity, destinationCity, trainTime, trainCost));
         neighbours.put(destinationCity, r);
         routes.put(startCity, neighbours);
@@ -77,6 +84,10 @@ public class TravelAssistant {
      */
     List<String> planTrip(String startCity, String destinationCity, boolean isVaccinated, int costImportance,
                           int travelTimeImportance, int travelHopImportance) throws IllegalArgumentException {
+
+        if(startCity == null || !cityByName.containsKey(startCity)) throw new IllegalArgumentException();
+        if(destinationCity == null || !cityByName.containsKey(destinationCity)) throw new IllegalArgumentException();
+        if(startCity.equals(destinationCity)) throw new IllegalArgumentException();
 
         DijkstrasAlgorithm alg = new DijkstrasAlgorithm(routes, cityByName, new TripMetadata(costImportance, travelTimeImportance, travelHopImportance, isVaccinated));
         Path res = alg.step1(startCity, destinationCity );

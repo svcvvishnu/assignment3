@@ -1,5 +1,3 @@
-package entity;
-
 /**
  * Train details between cities.
  */
