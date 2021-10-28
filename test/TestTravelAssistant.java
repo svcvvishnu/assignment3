@@ -1,3 +1,4 @@
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,9 +24,11 @@ public class TestTravelAssistant {
         assistant.addTrain("B", "C", 10, 1);
 
         List<String> output = assistant.planTrip("A", "C",  true, 1,0,0);
-        for (String s: output) {
-            System.out.println(s);
-        }
+
+        Assert.assertEquals("Expected output length", 3, output.size());
+        Assert.assertEquals("Starting should be", "start A", output.get(0));
+        Assert.assertEquals("Expected output length", "fly B", output.get(1));
+        Assert.assertEquals("Expected output length", "train C", output.get(2));
     }
 
     @Test
